@@ -12,6 +12,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 class WisePlus_Database {
 
     /**
+     * Check if tables exist
+     */
+    public static function tables_exist() {
+        global $wpdb;
+        $cities_table = $wpdb->prefix . 'wiseplus_cities';
+        $table_exists = $wpdb->get_var( "SHOW TABLES LIKE '$cities_table'" );
+        return $table_exists === $cities_table;
+    }
+
+    /**
      * Create all required database tables
      */
     public static function create_tables() {
@@ -75,12 +85,17 @@ class WisePlus_Database {
      * Get all cities
      */
     public static function get_cities( $enabled_only = false ) {
+        if ( ! self::tables_exist() ) {
+            return array();
+        }
+
         global $wpdb;
         $table = $wpdb->prefix . 'wiseplus_cities';
 
         $where = $enabled_only ? 'WHERE enabled = 1' : '';
 
-        return $wpdb->get_results( "SELECT * FROM $table $where ORDER BY city_name ASC" );
+        $results = $wpdb->get_results( "SELECT * FROM $table $where ORDER BY city_name ASC" );
+        return $results ? $results : array();
     }
 
     /**
@@ -150,14 +165,20 @@ class WisePlus_Database {
      * Get weight-based rates
      */
     public static function get_weight_rates( $city_id = null ) {
+        if ( ! self::tables_exist() ) {
+            return array();
+        }
+
         global $wpdb;
         $table = $wpdb->prefix . 'wiseplus_weight_rates';
 
         if ( $city_id ) {
-            return $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $table WHERE city_id = %d AND enabled = 1 ORDER BY min_weight ASC", $city_id ) );
+            $results = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $table WHERE city_id = %d AND enabled = 1 ORDER BY min_weight ASC", $city_id ) );
+            return $results ? $results : array();
         }
 
-        return $wpdb->get_results( "SELECT * FROM $table ORDER BY city_id, min_weight ASC" );
+        $results = $wpdb->get_results( "SELECT * FROM $table ORDER BY city_id, min_weight ASC" );
+        return $results ? $results : array();
     }
 
     /**
@@ -213,14 +234,20 @@ class WisePlus_Database {
      * Get shipping class-based rates
      */
     public static function get_class_rates( $city_id = null ) {
+        if ( ! self::tables_exist() ) {
+            return array();
+        }
+
         global $wpdb;
         $table = $wpdb->prefix . 'wiseplus_class_rates';
 
         if ( $city_id ) {
-            return $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $table WHERE city_id = %d AND enabled = 1", $city_id ) );
+            $results = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $table WHERE city_id = %d AND enabled = 1", $city_id ) );
+            return $results ? $results : array();
         }
 
-        return $wpdb->get_results( "SELECT * FROM $table ORDER BY city_id, shipping_class_id" );
+        $results = $wpdb->get_results( "SELECT * FROM $table ORDER BY city_id, shipping_class_id" );
+        return $results ? $results : array();
     }
 
     /**

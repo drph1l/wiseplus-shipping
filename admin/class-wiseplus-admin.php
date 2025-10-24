@@ -259,7 +259,13 @@ class WisePlus_Admin {
     public function render_class_rates_page() {
         $cities = WisePlus_Database::get_cities( true );
         $rates = WisePlus_Database::get_class_rates();
-        $shipping_classes = WC()->shipping()->get_shipping_classes();
+
+        // Safely get shipping classes
+        $shipping_classes = array();
+        if ( function_exists( 'WC' ) && WC()->shipping() ) {
+            $shipping_classes = WC()->shipping()->get_shipping_classes();
+        }
+
         $edit_rate = null;
 
         if ( isset( $_GET['edit'] ) ) {
