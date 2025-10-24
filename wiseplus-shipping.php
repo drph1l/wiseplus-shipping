@@ -75,7 +75,6 @@ class WisePlus_Shipping {
      */
     private function includes() {
         require_once WISEPLUS_SHIPPING_PLUGIN_DIR . 'includes/class-wiseplus-database.php';
-        require_once WISEPLUS_SHIPPING_PLUGIN_DIR . 'includes/class-wiseplus-shipping-method.php';
         require_once WISEPLUS_SHIPPING_PLUGIN_DIR . 'admin/class-wiseplus-admin.php';
     }
 
@@ -102,7 +101,8 @@ class WisePlus_Shipping {
      * Initialize shipping method
      */
     public function init_shipping_method() {
-        // Shipping method class is already included
+        // Load shipping method class when WooCommerce shipping is initialized
+        require_once WISEPLUS_SHIPPING_PLUGIN_DIR . 'includes/class-wiseplus-shipping-method.php';
     }
 
     /**
