@@ -1,0 +1,162 @@
+/**
+ * WisePlus Shipping Admin Styles
+ */
+
+.wiseplus-admin {
+    margin: 20px 20px 20px 0;
+}
+
+.wiseplus-admin h1 {
+    margin-bottom: 20px;
+}
+
+.wiseplus-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+@media screen and (max-width: 1200px) {
+    .wiseplus-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.wiseplus-card {
+    background: #fff;
+    border: 1px solid #ccd0d4;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+    padding: 20px;
+}
+
+.wiseplus-card h2 {
+    margin-top: 0;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.wiseplus-card .form-table {
+    margin-top: 20px;
+}
+
+.wiseplus-card .form-table th {
+    width: 200px;
+    padding: 15px 10px 15px 0;
+    vertical-align: top;
+}
+
+.wiseplus-card .form-table td {
+    padding: 15px 10px;
+}
+
+.wiseplus-status {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 3px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.wiseplus-status-enabled {
+    background: #d4edda;
+    color: #155724;
+}
+
+.wiseplus-status-disabled {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.wiseplus-admin .wp-list-table {
+    margin-top: 15px;
+}
+
+.wiseplus-admin .wp-list-table th {
+    font-weight: 600;
+}
+
+.wiseplus-admin .wp-list-table td {
+    vertical-align: middle;
+}
+
+.wiseplus-admin .button-link-delete {
+    color: #b32d2e;
+}
+
+.wiseplus-admin .button-link-delete:hover {
+    color: #dc3232;
+}
+
+.wiseplus-info-box {
+    background: #f0f6fc;
+    border: 1px solid #0969da;
+    border-radius: 6px;
+    padding: 20px;
+    margin-top: 20px;
+}
+
+.wiseplus-info-box h3 {
+    margin-top: 0;
+    color: #0969da;
+}
+
+.wiseplus-info-box ol {
+    margin-left: 20px;
+}
+
+.wiseplus-info-box li {
+    margin-bottom: 8px;
+}
+
+/* Form styling */
+.wiseplus-admin input[type="text"],
+.wiseplus-admin input[type="number"],
+.wiseplus-admin select {
+    padding: 6px 8px;
+}
+
+.wiseplus-admin .description {
+    font-size: 13px;
+    color: #646970;
+    margin-top: 5px;
+}
+
+.wiseplus-admin .submit {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+}
+
+/* Notice styling */
+.wiseplus-admin .notice {
+    margin: 15px 0;
+}
+
+/* Table actions */
+.wiseplus-admin .wp-list-table form {
+    margin: 0;
+}
+
+.wiseplus-admin .wp-list-table .button-small {
+    margin-right: 5px;
+}
+
+/* Empty state */
+.wiseplus-card p:last-child {
+    margin-bottom: 0;
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 782px) {
+    .wiseplus-card .form-table th,
+    .wiseplus-card .form-table td {
+        display: block;
+        width: 100%;
+        padding: 10px 0;
+    }
+
+    .wiseplus-card .form-table th {
+        padding-bottom: 5px;
+    }
+}
