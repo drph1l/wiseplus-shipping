@@ -34,14 +34,6 @@ function wiseplus_shipping_wc_missing_notice() {
 }
 
 /**
- * Check if WooCommerce is active
- */
-if ( ! in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
-    add_action( 'admin_notices', 'wiseplus_shipping_wc_missing_notice' );
-    return;
-}
-
-/**
  * Main WisePlus Shipping Class
  */
 class WisePlus_Shipping {
@@ -84,8 +76,6 @@ class WisePlus_Shipping {
     private function init_hooks() {
         add_action( 'woocommerce_shipping_init', array( $this, 'init_shipping_method' ) );
         add_filter( 'woocommerce_shipping_methods', array( $this, 'add_shipping_method' ) );
-        register_activation_hook( __FILE__, array( $this, 'activate' ) );
-        register_deactivation_hook( __FILE__, array( $this, 'deactivate' ) );
     }
 
     /**
@@ -112,21 +102,6 @@ class WisePlus_Shipping {
         $methods['wiseplus_shipping'] = 'WisePlus_Shipping_Method';
         return $methods;
     }
-
-    /**
-     * Plugin activation
-     */
-    public function activate() {
-        WisePlus_Database::create_tables();
-        flush_rewrite_rules();
-    }
-
-    /**
-     * Plugin deactivation
-     */
-    public function deactivate() {
-        flush_rewrite_rules();
-    }
 }
 
 /**
@@ -136,5 +111,39 @@ function WisePlus_Shipping() {
     return WisePlus_Shipping::instance();
 }
 
-// Initialize the plugin
-WisePlus_Shipping();
+/**
+ * Initialize plugin after WooCommerce is loaded
+ */
+function wiseplus_shipping_init() {
+    // Check if WooCommerce classes are loaded
+    if ( ! class_exists( 'WooCommerce' ) ) {
+        add_action( 'admin_notices', 'wiseplus_shipping_wc_missing_notice' );
+        return;
+    }
+
+    // Initialize the plugin
+    WisePlus_Shipping();
+}
+
+// Hook into plugins_loaded with priority 20 (after WooCommerce at priority 10)
+add_action( 'plugins_loaded', 'wiseplus_shipping_init', 20 );
+
+/**
+ * Plugin activation
+ */
+function wiseplus_shipping_activate() {
+    require_once WISEPLUS_SHIPPING_PLUGIN_DIR . 'includes/class-wiseplus-database.php';
+    WisePlus_Database::create_tables();
+    flush_rewrite_rules();
+}
+
+/**
+ * Plugin deactivation
+ */
+function wiseplus_shipping_deactivate() {
+    flush_rewrite_rules();
+}
+
+// Register activation and deactivation hooks
+register_activation_hook( __FILE__, 'wiseplus_shipping_activate' );
+register_deactivation_hook( __FILE__, 'wiseplus_shipping_deactivate' );
