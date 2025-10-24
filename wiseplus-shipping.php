@@ -27,18 +27,18 @@ define( 'WISEPLUS_SHIPPING_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'WISEPLUS_SHIPPING_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 
 /**
+ * Display notice if WooCommerce is not active
+ */
+function wiseplus_shipping_wc_missing_notice() {
+    echo '<div class="error"><p><strong>WisePlus Shipping</strong> requires WooCommerce to be installed and active.</p></div>';
+}
+
+/**
  * Check if WooCommerce is active
  */
 if ( ! in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
     add_action( 'admin_notices', 'wiseplus_shipping_wc_missing_notice' );
     return;
-}
-
-/**
- * Display notice if WooCommerce is not active
- */
-function wiseplus_shipping_wc_missing_notice() {
-    echo '<div class="error"><p><strong>WisePlus Shipping</strong> requires WooCommerce to be installed and active.</p></div>';
 }
 
 /**
@@ -67,6 +67,7 @@ class WisePlus_Shipping {
     public function __construct() {
         $this->includes();
         $this->init_hooks();
+        $this->init_admin();
     }
 
     /**
@@ -86,6 +87,15 @@ class WisePlus_Shipping {
         add_filter( 'woocommerce_shipping_methods', array( $this, 'add_shipping_method' ) );
         register_activation_hook( __FILE__, array( $this, 'activate' ) );
         register_deactivation_hook( __FILE__, array( $this, 'deactivate' ) );
+    }
+
+    /**
+     * Initialize admin
+     */
+    private function init_admin() {
+        if ( is_admin() ) {
+            new WisePlus_Admin();
+        }
     }
 
     /**

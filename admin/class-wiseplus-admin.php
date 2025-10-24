@@ -271,6 +271,3 @@ class WisePlus_Admin {
         include WISEPLUS_SHIPPING_PLUGIN_DIR . 'admin/views/class-rates.php';
     }
 }
-
-// Initialize admin
-new WisePlus_Admin();
